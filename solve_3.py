@@ -1,6 +1,6 @@
 import numpy as np
 from util.DSSolver import DSSolver
-from util.DecisionTree import DT
+from util.DecisionSet import DS
 
 def data_processing(file_name):
     data_path = "data/" + file_name
@@ -32,7 +32,6 @@ def data_processing(file_name):
     data.readline()  # Skip the header
     end = False
     curr_exmaple_index = 0
-    first_eg = True
 
     while not end:
         line = data.readline().strip("\n").split(",")
@@ -50,12 +49,11 @@ def data_processing(file_name):
                     data_features[curr_exmaple_index, curr_f_index] = 1
                 else:
                     curr_f_index = num_prev_vars
-                    if first_eg:
+                    if curr_exmaple_index == 0:
                         first_line = line
                         data_features[0, curr_f_index] = 0 if str(first_line[i]).strip().upper() == 'FALSE' or str(first_line[i]).strip() == '0' \
                                                               or str(first_line[i]).strip().upper() == 'NO' or str(first_line[i]).strip().upper() == 'WEAK' \
                                                               or str(first_line[i]).strip().upper() == 'NORMAL'else 1
-                        first_eg = False
                     else:
                         data_features[curr_exmaple_index, curr_f_index] = data_features[0, curr_f_index] if line[i] == first_line[i] else (data_features[0, curr_f_index] + 1) % 2
 
@@ -69,28 +67,58 @@ def data_processing(file_name):
 
 
 # max_nodes = 9 # It means minimun literals is 9
-filename = "weather.csv"
+#filename = "weather.csv"
 #filename = "mouse-un.csv"
-'''
-feature_names, feature_vars, data_features, data_classes = data_processing(filename)
-print(feature_names)
-print(feature_vars)
-print(data_features)
-print(data_classes)
+filename = "test.csv"
 
-'''
+#feature_names, feature_vars, data_features, data_classes = data_processing(filename)
+#print(feature_names)
+#print(feature_vars)
+#print("features:\n", data_features)
+#print("\n classes:\n", data_classes)
+
 if __name__ == "__main__":
+
     feature_names, feature_vars, data_features, data_classes = data_processing(filename)
     K = data_features.shape[1]
+
     found = False
     data = (data_features, data_classes)
-    num_literal = 1 #The number of decision nodes
-    N = num_literal * 2 + 1
-    DDS_solver = DSSolver(K, N, data)
+  #  num_literal = 1 #The number of decision nodes
+ #   N = num_literal * 2 + 1
+    N = 4
+    found = False
 
-    DDS_solver.encode_constraints()
-    print(DDS_solver.clause)
-    print(DDS_solver.var2ids)
-    print(DDS_solver.ids2var)
-    print(DDS_solver.sig)
-    print(DDS_solver.var_S)
+    while not found:
+        DDS_solver = DSSolver(K, N, data)
+        sol = DDS_solver.solve()
+
+        if sol is not None:
+            print("The current number of nodes are: {0}".format(N) + ". Solution found")
+            found = True
+            ds = DS(K, N)
+            ds.parse_solution(sol)
+            ds.generate_tree()
+          #  ds.validate(data_features, data_classes)
+            ds.draw(1, filename[:-4])
+         #   print("data feature:",data_features)
+         #   print("data class:" , data_classes)
+        else:
+            print("The current number of nodes are: {0}".format(N) + ". Solution not found")
+            N += 1
+
+
+   # print(ds.S)
+    #print(ds.l)
+  #  print(DDS_solver.sig)
+   # print(DDS_solver.c)
+    #print("l:\n", ds.l)
+    #print("S:\n", ds.S)
+    #print("t:\n", ds.t)
+    #print(ds.tree)
+   # print(ds.S[2, 2])
+   # print(DDS_solver.clause)
+
+    #print(DDS_solver.var2ids)
+    #print(DDS_solver.ids2var)
+    #print(DDS_solver.sig)

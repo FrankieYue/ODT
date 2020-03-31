@@ -60,7 +60,7 @@ class DT(): # For adjust a solution
         var_name_lookup = {"v": self.v, "l": self.l, "r": self.r, "a": self.a, "c": self.c}
         for var, value in sol:
             var_name = var[1: var.find("[")].strip() #var[0] is ','
-            var_index = var[var.find("[")+1 : var.find("]")].strip(",")
+            var_index = var[var.find("[")+1 : var.find("]")].strip()
             assert var_name in var_name_lookup
             if var_name == "v" or var_name == "c":
                 var_name_lookup[var_name][int(var_index)] = value
