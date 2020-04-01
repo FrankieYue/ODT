@@ -68,8 +68,8 @@ def data_processing(file_name):
 
 # max_nodes = 9 # It means minimun literals is 9
 #filename = "weather.csv"
-#filename = "mouse-un.csv"
-filename = "test.csv"
+filename = "mouse-un.csv"
+#filename = "test.csv"
 
 #feature_names, feature_vars, data_features, data_classes = data_processing(filename)
 #print(feature_names)
@@ -86,8 +86,10 @@ if __name__ == "__main__":
     data = (data_features, data_classes)
   #  num_literal = 1 #The number of decision nodes
  #   N = num_literal * 2 + 1
-    N = 4
+    N = 21
     found = False
+  #  DDS_solver = DSSolver(K, N, data)
+    #DDS_solver.encode_constraints()
 
     while not found:
         DDS_solver = DSSolver(K, N, data)
@@ -99,7 +101,7 @@ if __name__ == "__main__":
             ds = DS(K, N)
             ds.parse_solution(sol)
             ds.generate_tree()
-          #  ds.validate(data_features, data_classes)
+            ds.validate(data_features, data_classes)
             ds.draw(1, filename[:-4])
          #   print("data feature:",data_features)
          #   print("data class:" , data_classes)

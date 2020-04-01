@@ -55,6 +55,7 @@ class DS():
                 if node[0].lower().startswith('f'):
                     node_f = int(node[0][1:])
                     if pre_leaf:
+                        pre_leaf = False
                         if f[node_f - 1] == node_value:
                             pre_match = True
                         else:
@@ -67,8 +68,7 @@ class DS():
                     assert node[0].lower().strip() == 'class'
                     pre_leaf = True
                     if pre_match:
-                        print(c)
-                        assert c == node_value, 'Wrong Solution'
+                        assert c == node_value, 'Wrong solution'
 
 
 

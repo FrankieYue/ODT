@@ -201,10 +201,26 @@ class DSSolver():
 
                 for j in range(1, self.N + 1):
                     or_f = []
+                    f1 = []
+                    f1.append(self.get_cnf_id(self.var_l[j]))
+
                     for f in range(1, self.K+1):
                         or_f.append(self.get_cnf_id(self.var_S[j, f]))
-                    aaa = [self.ids2var[abs(jj)] if jj > 0 else '-' + self.ids2var[abs(jj)] for jj in or_f ]
+                        f1.append(self.get_cnf_id(self.var_S[j, f]))
+
+                    self.clause.append(f1)
+                   # aaa = [self.ids2var[abs(jj)] if jj > 0 else '-' + self.ids2var[abs(jj)] for jj in or_f ]
                  #   print('\nj:', j, aaa)
+
+                    for a in range(len(or_f)):
+                        for b in range(a+1, len(or_f)):
+                            new_f = []
+                            new_f.append(self.get_cnf_id(self.var_l[j]))
+                            new_f.append(-or_f[a])
+                            new_f.append(-or_f[b])
+                            self.clause.append(new_f)
+
+                    ''' Old method (Expensive)
                     for a in range(2, len(or_f) + 1):
                         for b in itertools.combinations(or_f, r=a):
                             new_f = or_f.copy()
@@ -215,6 +231,7 @@ class DSSolver():
                             self.clause.append(new_f)
                             bbb = [self.ids2var[abs(jj)] if jj > 0 else '-' + self.ids2var[abs(jj)] for jj in new_f ]
                          #   print('a:', a, 'j:', j, bbb)
+                     '''
             cons_5a(self)
             cons_5b(self)
 
@@ -293,7 +310,7 @@ class DSSolver():
         cons_2(self)
         cons_3(self)
         cons_4(self)
-        cons_5(self)
+        cons_5(self) # Problem constraint 5b
         cons_6(self)
         cons_7(self)
         cons_8(self)

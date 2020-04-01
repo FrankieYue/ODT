@@ -121,6 +121,19 @@ def draw2(N=12, cnt=2):
 
 draw2()
 '''
+#Exactly one
+import pycosat
+
+a = [1,2,3,4,5,6]
+clause = []
+clause.append(a)
+
+for i in range(len(a)):
+    for j in range(i+1, len(a)):
+        clause.append([-a[i], -a[j]])
+
+for s in pycosat.itersolve(clause):
+    print(s)
 
 
 

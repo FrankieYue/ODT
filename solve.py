@@ -69,17 +69,17 @@ def data_processing(file_name):
 
 
 # max_nodes = 9 # It means minimun literals is 9
-filename = "weather.csv"
-#filename = "mouse-un.csv"
+#filename = "weather.csv"
+filename = "mouse-un.csv"
 
-feature_names, feature_vars, data_features, data_classes = data_processing(filename)
-print(feature_names)
-print(feature_vars)
-print(data_features)
-print(data_classes)
+#feature_names, feature_vars, data_features, data_classes = data_processing(filename)
+#print(feature_names)
+#print(feature_vars)
+#print(data_features)
+#print(data_classes)
 
 
-'''
+
 if __name__ == "__main__":
     feature_names, feature_vars, data_features, data_classes = data_processing(filename)
     K = data_features.shape[1]
@@ -124,4 +124,3 @@ if __name__ == "__main__":
         print("The minimun number of decision sets is {0}".format(num_literal))
     else:
         print("Solution not found when the maximum number of decision sets is 99")
-'''
