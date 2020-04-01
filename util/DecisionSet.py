@@ -70,13 +70,6 @@ class DS():
                     if pre_match:
                         assert c == node_value, 'Wrong solution'
 
-
-
-
-
-
-
-
     def draw(self, cnt, filename):
         nx_tree = nx.Graph()
         nx_tree_label = {}
@@ -87,13 +80,29 @@ class DS():
                 nx_tree_label[j] = "T" if self.t[j] == 1 else "F"
             else:
                 nx_tree_label[j] = self.tree[j - 1][0] if self.tree[j - 1][1] else "-{0}".format(self.tree[j - 1][0])
+
             if j + 1 <= self.N:
                 nx_tree.add_edge(j, j+1)
-            pos.append([j, 0])
 
+            quotient = (j-1) // 10
+            rem = quotient % 2
+            if rem == 0:
+                pos.append([j - quotient * 10, - quotient])
+            else:
+                pos.append([(quotient + 1) * 10 + 1 - j, -quotient])
 
+            '''
+            if j <= 10:
+                pos.append([j, 0])
+            elif j <= 20:
+                pos.append([21-j, -1])
+            elif j <= 30:
+                pos.append([j - 20, -2])
+            elif j <= 40:
+                pos.append([41-j, -3])
+            '''
 
-        plt.figure(figsize=(6, 6))
+        plt.figure(figsize=(8, 8))
         plt.subplot(2, 1, 1)
         nx.draw(nx_tree, pos, with_labels=True, node_color='blue')
         plt.subplot(2, 1, 2)

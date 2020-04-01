@@ -322,17 +322,36 @@ class DSSolver():
 
 
     def solve(self):
+        '''
         self.encode_constraints()
-        s = pycosat.solve(self.clause)
+        self.all_var_sol =[]
+
+        solutions = [s for s in pycosat.itersolve(self.clause)]
+        ds_var_solutions = []
+        if len(solutions) == 0:
+            return None
+        else:
+            for s in solutions:
+                ds_var_sol = []
+                for ids in s:
+                    var_name = self.ids2var[abs(ids)]
+                    var_val = 1 if ids > 0 else 0
+                    self.all_var_sol.append((var_name, var_val))
+                    if var_name[0] in self.basic_keys:
+                        ds_var_sol.append((var_name, var_val))
+                ds_var_solutions.append(ds_var_sol)
+            return ds_var_solutions
+
+        '''
+        self.encode_constraints()
         self.all_var_sol =[]
         ds_var_sol = []
-        aaa = []
+        s = pycosat.solve(self.clause)
         if s == "UNSAT":
            # print("There is no solutions for node number {0} ".format(self.N))
             return None
         else:
             for ids in s:
-                aaa.append(ids)
                 var_name = self.ids2var[abs(ids)]
                 var_val = 1 if ids > 0 else 0
                 self.all_var_sol.append((var_name, var_val))
@@ -342,8 +361,9 @@ class DSSolver():
            # print(self.all_var_sol)
     
           #  print("sol:\n",ds_var_sol)
-            return ds_var_sol
+            return [ds_var_sol]
      #   print('aaa', aaa[0]==-1),
+
 
 
 

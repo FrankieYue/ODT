@@ -120,21 +120,19 @@ def draw2(N=12, cnt=2):
     plt.close()
 
 draw2()
-'''
+
 #Exactly one
 import pycosat
 
-a = [1,2,3,4,5,6]
+a = [1]
+b = [-1]
 clause = []
 clause.append(a)
-
-for i in range(len(a)):
-    for j in range(i+1, len(a)):
-        clause.append([-a[i], -a[j]])
-
-for s in pycosat.itersolve(clause):
-    print(s)
-
+clause.append(b)
+aaa = [s for s in pycosat.itersolve(clause)]
+print(len(aaa) == 0)
+'''
+print(3 // 2)
 
 
 

@@ -93,16 +93,21 @@ if __name__ == "__main__":
 
     while not found:
         DDS_solver = DSSolver(K, N, data)
-        sol = DDS_solver.solve()
+        solutions = DDS_solver.solve()
 
-        if sol is not None:
-            print("The current number of nodes are: {0}".format(N) + ". Solution found")
+        if solutions is not None:
             found = True
-            ds = DS(K, N)
-            ds.parse_solution(sol)
-            ds.generate_tree()
-            ds.validate(data_features, data_classes)
-            ds.draw(1, filename[:-4])
+            num_sol = 1
+            for sol in solutions:
+                print("\nThe current number of nodes are: {0}".format(N) + ". Solution found")
+                ds = DS(K, N)
+                ds.parse_solution(sol)
+                ds.generate_tree()
+                ds.validate(data_features, data_classes)
+                ds.draw(num_sol, filename[:-4])
+                num_sol += 1
+                if num_sol > 30:
+                    break
          #   print("data feature:",data_features)
          #   print("data class:" , data_classes)
         else:
